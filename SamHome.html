@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sam George — Embedded Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080c10;
+      --bg2: #0d1117;
+      --bg3: #111820;
+      --surface: #161d27;
+      --surface2: #1c2535;
+      --border: #1e2d3d;
+      --accent: #00d4ff;
+      --accent2: #00ff9d;
+      --accent3: #ff6b35;
+      --text: #e2e8f0;
+      --text2: #8899aa;
+      --text3: #4a6074;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.5;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(8,12,16,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-title {
+      font-family: var(--mono);
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: var(--text2);
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text2);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      cursor: none;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      position: absolute;
+      right: 3rem; top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      z-index: 1;
+    }
+    .stat {
+      text-align: right;
+      border-right: 2px solid var(--accent);
+      padding-right: 1.2rem;
+    }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+    .section-header {
+      margin-bottom: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    .about-text p strong { color: var(--accent); font-weight: 600; }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+    }
+    .about-card h3 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.2rem;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+    }
+    .info-val {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      background: rgba(0,255,157,0.1);
+      border: 1px solid rgba(0,255,157,0.3);
+      color: var(--accent2);
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-category:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .skill-category::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.03), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .skill-category:hover::after { opacity: 1; }
+    .skill-cat-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .skill-cat-title .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text2);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+    .timeline-item:hover { border-color: var(--accent); }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.4rem; top: 2rem;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent);
+    }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+    .exp-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .exp-company { color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+    .exp-meta {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+    }
+    .exp-desc { color: var(--text2); line-height: 1.7; margin-top: 1rem; font-size: 0.95rem; }
+    .exp-projects { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .exp-project {
+      background: var(--bg3);
+      border-left: 2px solid var(--accent);
+      padding: 1rem 1.2rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .exp-project h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .exp-project p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+    .exp-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+    .tech-pill {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--accent2);
+      background: rgba(0,255,157,0.07);
+      border: 1px solid rgba(0,255,157,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    /* PROJECTS */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,212,255,0.08);
+    }
+    .project-num {
+      font-family: var(--mono);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--border);
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .project-card:hover .project-num { color: rgba(0,212,255,0.15); }
+    .project-type {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent3);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+    }
+    .project-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+    .project-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.7; margin-bottom: 1.2rem; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-text h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+    .contact-text p { color: var(--text2); line-height: 1.7; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      color: var(--text);
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: rgba(0,212,255,0.05);
+      transform: translateX(4px);
+    }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-link-info { flex: 1; }
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+    }
+    .contact-link-val { font-size: 0.95rem; font-weight: 600; margin-top: 0.2rem; }
+    .contact-link-arrow { color: var(--text3); transition: color 0.2s; }
+    .contact-link:hover .contact-link-arrow { color: var(--accent); }
+
+    /* AI CHATBOT */
+    .chat-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      width: 56px; height: 56px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: none;
+      cursor: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 24px rgba(0,212,255,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .chat-fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(0,212,255,0.6);
+    }
+    .chat-bubble {
+      position: fixed;
+      bottom: 6rem;
+      right: 2rem;
+      z-index: 500;
+      width: 360px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      max-height: 520px;
+    }
+    .chat-bubble.open { display: flex; }
+    .chat-header {
+      padding: 1rem 1.2rem;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .chat-avatar {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .chat-header-info h4 { font-size: 0.9rem; font-weight: 700; }
+    .chat-header-info p { font-family: var(--mono); font-size: 0.62rem; color: var(--accent2); }
+    .chat-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-size: 1.2rem;
+      cursor: none;
+      transition: color 0.2s;
+    }
+    .chat-close:hover { color: var(--text); }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      min-height: 200px;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .msg {
+      max-width: 80%;
+      padding: 0.7rem 0.9rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+    .msg.user {
+      align-self: flex-end;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+    }
+    .msg.bot {
+      align-self: flex-start;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .msg.typing {
+      align-self: flex-start;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+    }
+    .typing-dots { display: flex; gap: 4px; padding: 2px 4px; }
+    .typing-dots span {
+      width: 6px; height: 6px;
+      background: var(--text3);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+    .chat-input-area {
+      padding: 0.8rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chat-input {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.6rem 0.8rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .chat-input:focus { border-color: var(--accent); }
+    .chat-send {
+      background: var(--accent);
+      border: none;
+      color: var(--bg);
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      cursor: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: opacity 0.2s;
+    }
+    .chat-send:hover { opacity: 0.85; }
+    .chat-suggestions {
+      padding: 0 1rem 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .suggestion {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--accent);
+      border: 1px solid rgba(0,212,255,0.3);
+      background: rgba(0,212,255,0.05);
+      padding: 0.3rem 0.6rem;
+      border-radius: 2px;
+      cursor: none;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .suggestion:hover {
+      background: rgba(0,212,255,0.12);
+      border-color: var(--accent);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+    }
+    footer span { color: var(--accent); }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      .hero-stats { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .chat-bubble { width: calc(100vw - 2rem); right: 1rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">SG_PORTFOLIO.exe</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Embedded Software Engineer</div>
+      <h1 class="hero-name">SAM<br><span>GEORGE</span></h1>
+      <p class="hero-title">// Automotive Systems · Low-Level Software · AUTOSAR</p>
+      <p class="hero-desc">
+        Building the software that powers modern vehicles — from telematics and OTA updates
+        to battery management systems for EVs. Passionate about low-level systems, real-time software,
+        and the intersection of hardware and code.
+      </p>
+      <div class="hero-btns">
+        <a href="#experience" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2.5+</div>
+        <div class="stat-label">YEARS EXP</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">CORE PROJECTS</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12+</div>
+        <div class="stat-label">SKILLS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Sam George</strong>, an Embedded Software Engineer based in <strong>Kochi, Kerala, India</strong>
+          with hands-on experience in automotive-grade software development.
+        </p>
+        <p>
+          At <strong>Electrifex</strong>, I worked on cutting-edge automotive systems — from a Telematics Control Unit
+          that connects vehicles to the internet for 24/7 remote access and OTA updates, to Battery Management
+          Systems deployed in EVs and hybrids for multiple automotive giants.
+        </p>
+        <p>
+          I've also explored security domains like <strong>OPTEE</strong> and collaborated with AOSP teams on
+          Android head units — bridging embedded Linux with the broader automotive software stack.
+        </p>
+        <p>
+          Currently open to new opportunities where I can bring deep embedded expertise to challenging
+          automotive or IoT engineering problems.
+        </p>
+        <span class="badge">#OPENTOWORK</span>
+      </div>
+      <div class="about-card reveal">
+        <h3>// QUICK INFO</h3>
+        <div class="info-row">
+          <span class="info-label">NAME</span>
+          <span class="info-val">Sam George</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">LOCATION</span>
+          <span class="info-val">Kochi, Kerala, India</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">DOMAIN</span>
+          <span class="info-val">Automotive Embedded</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">EDUCATION</span>
+          <span class="info-val">Alva's College</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">EXPERIENCE</span>
+          <span class="info-val">2 yrs 5 mos</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">STATUS</span>
+          <span class="badge">#OPENTOWORK</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">EMAIL</span>
+          <span class="info-val" style="font-size:0.8rem">samgeorgeawdial@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Skills & Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><span class="dot"></span>LANGUAGES</div>
+        <div class="skill-tags">
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Bash / Shell</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><span class="dot"></span>AUTOMOTIVE</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AUTOSAR</span>
+          <span class="skill-tag">CAN Bus</span>
+          <span class="skill-tag">UDS / OBD</span>
+          <span class="skill-tag">OTA Updates</span>
+          <span class="skill-tag">RAUC</span>
+          <span class="skill-tag">TCU</span>
+          <span class="skill-tag">BMS</span>
+          <span class="skill-tag">MISRA C</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><span class="dot"></span>EMBEDDED / OS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RTOS</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Yocto</span>
+          <span class="skill-tag">AOSP</span>
+          <span class="skill-tag">U-Boot</span>
+          <span class="skill-tag">OPTEE</span>
+          <span class="skill-tag">iMX8</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><span class="dot"></span>PROTOCOLS & TOOLS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">LIN / SPI / I2C</span>
+          <span class="skill-tag">MQTT</span>
+          <span class="skill-tag">GTest</span>
+          <span class="skill-tag">Unit Testing</span>
+          <span class="skill-tag">Safety Controllers</span>
+          <span class="skill-tag">Code Quality</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Automotive Embedded Software Engineer</div>
+            <div class="exp-company">Electrifex</div>
+          </div>
+          <div style="text-align:right">
+            <div class="exp-meta">Jul 2023 — Nov 2025</div>
+            <div class="exp-meta">Kochi, Kerala · Full-time · On-site</div>
+            <div class="exp-meta" style="color:var(--accent2);margin-top:4px">2 yrs 5 mos</div>
+          </div>
+        </div>
+        <div class="exp-projects">
+          <div class="exp-project">
+            <h4>🚗 Telematics Control Unit (TCU) — R&D Project</h4>
+            <p>Built an ECU that connects the vehicle to the internet for 24/7 connectivity, enabling remote software updates across almost all ECUs via CAN. Developed on iMX8 hardware with a Yocto-based Linux stack and RAUC for secure OTA.</p>
+            <div class="exp-tech">
+              <span class="tech-pill">U-Boot</span>
+              <span class="tech-pill">RAUC</span>
+              <span class="tech-pill">iMX8</span>
+              <span class="tech-pill">Yocto</span>
+              <span class="tech-pill">MQTT</span>
+              <span class="tech-pill">C</span>
+              <span class="tech-pill">Linux</span>
+            </div>
+          </div>
+          <div class="exp-project">
+            <h4>🔋 Battery Management System (BMS) — EVs & Hybrids</h4>
+            <p>Developed BMS software for EVs and hybrids deployed by multiple automotive giants. Worked with RTOS, safety controllers, AUTOSAR stack, and maintained MISRA-compliant code quality with comprehensive unit testing.</p>
+            <div class="exp-tech">
+              <span class="tech-pill">RTOS</span>
+              <span class="tech-pill">Safety Controller</span>
+              <span class="tech-pill">MISRA</span>
+              <span class="tech-pill">AUTOSAR</span>
+              <span class="tech-pill">GTest</span>
+              <span class="tech-pill">CAN</span>
+            </div>
+          </div>
+          <div class="exp-project">
+            <h4>🔐 OPTEE & Android Head Unit</h4>
+            <p>Worked on in-house projects in trusted execution environments (OPTEE) and collaborated with AOSP teams on the Android-based vehicle head unit.</p>
+            <div class="exp-tech">
+              <span class="tech-pill">OPTEE</span>
+              <span class="tech-pill">AOSP</span>
+              <span class="tech-pill">Android</span>
+              <span class="tech-pill">Security</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Key Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-num">01</div>
+        <div class="project-type">R&D · CONNECTIVITY</div>
+        <div class="project-name">Telematics Control Unit</div>
+        <p class="project-desc">An internet-connected ECU enabling 24/7 remote vehicle access and OTA software updates across all ECUs via CAN. Built on iMX8 with Yocto Linux and RAUC for secure update management.</p>
+        <div class="exp-tech">
+          <span class="tech-pill">iMX8</span>
+          <span class="tech-pill">Yocto</span>
+          <span class="tech-pill">RAUC</span>
+          <span class="tech-pill">MQTT</span>
+          <span class="tech-pill">CAN</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-num">02</div>
+        <div class="project-type">PRODUCTION · EV / HYBRID</div>
+        <div class="project-name">Battery Management System</div>
+        <p class="project-desc">MISRA-compliant BMS software deployed in EVs and hybrids for major automotive OEMs. Covers safety-critical real-time control, AUTOSAR integration, and thorough unit test coverage using GTest.</p>
+        <div class="exp-tech">
+          <span class="tech-pill">RTOS</span>
+          <span class="tech-pill">AUTOSAR</span>
+          <span class="tech-pill">MISRA C</span>
+          <span class="tech-pill">GTest</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-num">03</div>
+        <div class="project-type">SECURITY · ANDROID</div>
+        <div class="project-name">OPTEE & Android Head Unit</div>
+        <p class="project-desc">Security domain work in trusted execution environments using OPTEE, alongside collaboration with AOSP teams to build and maintain the Android-based infotainment head unit.</p>
+        <div class="exp-tech">
+          <span class="tech-pill">OPTEE</span>
+          <span class="tech-pill">AOSP</span>
+          <span class="tech-pill">TEE</span>
+          <span class="tech-pill">Linux</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-text reveal">
+        <h3>Let's Build Something Together.</h3>
+        <p>I'm actively looking for new opportunities in embedded systems, automotive software, and EV/IoT domains. Whether you have a role in mind or just want to connect — my inbox is open.</p>
+        <a href="mailto:samgeorgeawdial@gmail.com" class="btn btn-primary">Say Hello →</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:samgeorgeawdial@gmail.com" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">EMAIL</div>
+            <div class="contact-link-val">samgeorgeawdial@gmail.com</div>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/sam-george-b335461bb/" target="_blank" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">LINKEDIN</div>
+            <div class="contact-link-val">sam-george-b335461bb</div>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://github.com/" target="_blank" class="contact-link">
+          <div class="contact-link-icon">⌥</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">GITHUB</div>
+            <div class="contact-link-val">Add your GitHub handle</div>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <span>Sam George</span> · Embedded Software Engineer</p>
+    <p>Built with <span>♥</span> and Claude AI · Kochi, India</p>
+  </footer>
+
+  <!-- AI CHATBOT -->
+  <button class="chat-fab" id="chatFab" title="Ask me anything about Sam">💬</button>
+  <div class="chat-bubble" id="chatBubble">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-header-info">
+        <h4>Ask About Sam</h4>
+        <p>// AI-powered · Always online</p>
+      </div>
+      <button class="chat-close" id="chatClose">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">Hi! I'm an AI assistant that knows everything about Sam George. Ask me about his experience, skills, or anything else! 👋</div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions">
+      <button class="suggestion" onclick="askSuggestion('What projects has Sam worked on?')">Projects?</button>
+      <button class="suggestion" onclick="askSuggestion('What are Sam\\'s core skills?')">Skills?</button>
+      <button class="suggestion" onclick="askSuggestion('Is Sam available for work?')">Available?</button>
+      <button class="suggestion" onclick="askSuggestion('Tell me about Sam\\'s BMS work')">BMS work?</button>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything about Sam..." />
+      <button class="chat-send" id="chatSend">→</button>
+    </div>
+  </div>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); }
+    animateRing();
+    document.querySelectorAll('a,button,.suggestion,.skill-tag').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width='20px'; cursor.style.height='20px'; ring.style.width='50px'; ring.style.height='50px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width='12px'; cursor.style.height='12px'; ring.style.width='36px'; ring.style.height='36px'; });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Chatbot
+    const fab = document.getElementById('chatFab');
+    const bubble = document.getElementById('chatBubble');
+    const closeBtn = document.getElementById('chatClose');
+    const input = document.getElementById('chatInput');
+    const send = document.getElementById('chatSend');
+    const messages = document.getElementById('chatMessages');
+
+    fab.addEventListener('click', () => bubble.classList.toggle('open'));
+    closeBtn.addEventListener('click', () => bubble.classList.remove('open'));
+
+    const SYSTEM = `You are an AI assistant on Sam George's personal portfolio website. Your ONLY job is to answer questions about Sam George based on the following facts. Keep answers concise (2-4 sentences max). Be friendly and professional.
+
+FACTS ABOUT SAM GEORGE:
+- Full name: Sam George (He/Him)
+- Location: Kochi, Kerala, India
+- Email: samgeorgeawdial@gmail.com
+- LinkedIn: linkedin.com/in/sam-george-b335461bb/
+- Education: Alva's College of Education
+- Status: Currently open to work (#OPENTOWORK) — not working for the last 4 months
+- Role: Embedded Software Engineer (Automotive domain)
+- Experience: 2 years 5 months at Electrifex (Jul 2023 – Nov 2025), full-time, on-site
+
+COMPANY: Electrifex — Kochi, Kerala
+
+PROJECT 1 — Telematics Control Unit (TCU): R&D project. An ECU that connects the vehicle to the internet for 24/7 remote access and can remotely update software in almost all ECUs via CAN. Tech used: U-Boot, RAUC, iMX8, Yocto, MQTT, C, Linux.
+
+PROJECT 2 — Battery Management System (BMS): For EVs and hybrids for multiple automotive giants (major OEMs). MISRA-compliant, safety-critical real-time software. Tech: RTOS, Safety controller, Code quality, MISRA, AUTOSAR, GTest framework, Unit testing, CAN, vehicle interface.
+
+PROJECT 3 — OPTEE & Android Head Unit: In-house security domain work (OPTEE, trusted execution environments), and collaboration with AOSP team on the Android head unit.
+
+SKILLS:
+- Languages: C, C++, Python, Bash/Shell
+- Automotive: AUTOSAR, CAN Bus, UDS/OBD, OTA Updates, RAUC, TCU, BMS, MISRA C
+- Embedded/OS: RTOS, Linux, Yocto, AOSP, U-Boot, OPTEE, iMX8
+- Protocols & Tools: LIN, SPI, I2C, MQTT, GTest, Unit Testing
+
+If asked something not related to Sam, politely redirect: "I can only answer questions about Sam George. Try asking about his skills, projects, or experience!"`;
+
+    async function sendMessage(text) {
+      if (!text.trim()) return;
+      appendMsg(text, 'user');
+      input.value = '';
+      document.getElementById('chatSuggestions').style.display = 'none';
+      const typing = appendMsg('', 'typing');
+      typing.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: SYSTEM,
+            messages: [{ role: 'user', content: text }]
+          })
+        });
+        const data = await res.json();
+        typing.remove();
+        const reply = data.content?.map(b => b.text || '').join('') || 'Sorry, I couldn\'t get a response.';
+        appendMsg(reply, 'bot');
+      } catch(e) {
+        typing.remove();
+        appendMsg('Connection error. Please try again!', 'bot');
+      }
+    }
+
+    function appendMsg(text, type) {
+      const el = document.createElement('div');
+      el.className = `msg ${type}`;
+      el.textContent = text;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+      return el;
+    }
+
+    function askSuggestion(text) { sendMessage(text); }
+    send.addEventListener('click', () => sendMessage(input.value));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(input.value); });
+  </script>
+</body>
+</html>
