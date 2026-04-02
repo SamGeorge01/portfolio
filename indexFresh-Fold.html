@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh-Fold – Premium Laundry Service</title>
+<meta name="description" content="Fresh-Fold – Professional laundry, dry cleaning, ironing & doorstep pickup-delivery in palakkad, Kerala.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS ─────────────────────────────── */
+  :root {
+    --blue:        #1a6db5;
+    --blue-mid:    #2d8de8;
+    --blue-light:  #e8f2fb;
+    --blue-dark:   #0d4a7a;
+    --blue-deeper: #072e50;
+    --white:       #ffffff;
+    --off:         #f5f8fc;
+    --text:        #17202e;
+    --muted:       #6b7a8d;
+    --border:      #d6e6f5;
+    --gold:        #c9963a;
+    --gold-light:  #fdf4e3;
+    --wa:          #25d366;
+    --wa-dark:     #128c4a;
+    --radius:      14px;
+    --sh:          0 2px 20px rgba(26,109,181,.09);
+    --sh-lg:       0 8px 40px rgba(26,109,181,.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+  a { color: inherit; }
+
+  /* ── UTILITIES ───────────────────────────── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; display: block; }
+  .section-title { font-size: clamp(26px, 4vw, 40px); color: var(--blue-dark); margin-bottom: 14px; }
+  .section-sub { font-size: 16px; color: var(--muted); max-width: 500px; line-height: 1.75; }
+  .section-hd { margin-bottom: 52px; }
+
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    height: 66px;
+    display: flex; align-items: center;
+  }
+  .nav-inner { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-mark { width: 38px; height: 38px; background: var(--blue); border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--blue-dark); }
+  .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .18s; }
+  .nav-links a:hover { color: var(--blue); }
+  .btn-wa-nav {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--wa); color: white;
+    padding: 9px 18px; border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: background .18s, transform .18s;
+    white-space: nowrap;
+  }
+  .btn-wa-nav:hover { background: var(--wa-dark); transform: translateY(-1px); }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; border: none; background: transparent; }
+  .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; display: block; }
+  .nav-mobile { display: none; }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero-wrap {
+    min-height: 100vh;
+    background: linear-gradient(150deg, #eaf3fc 0%, #deeefa 45%, #f9fbfe 100%);
+    display: flex; align-items: center;
+    padding: 100px 0 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero-wrap::before {
+    content: '';
+    position: absolute; top: -80px; right: -120px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(45,141,232,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--gold-light); border: 1px solid var(--gold);
+    color: #7a5510; font-size: 12px; font-weight: 500;
+    padding: 5px 13px; border-radius: 20px; margin-bottom: 22px;
+  }
+  .hero h1 { font-size: clamp(36px, 5vw, 60px); color: var(--blue-dark); margin-bottom: 20px; }
+  .hero h1 em { color: var(--blue); font-style: italic; }
+  .hero-desc { font-size: 17px; color: var(--muted); max-width: 430px; line-height: 1.8; margin-bottom: 36px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-wa-hero {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--wa); color: white;
+    padding: 15px 30px; border-radius: 13px;
+    font-size: 16px; font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,.35);
+    transition: all .2s;
+  }
+  .btn-wa-hero:hover { background: var(--wa-dark); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(37,211,102,.4); }
+  .btn-services {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--blue);
+    border: 1.5px solid var(--blue);
+    padding: 14px 26px; border-radius: 13px;
+    font-size: 16px; font-weight: 500;
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-services:hover { background: var(--blue-light); }
+  .hero-kpis { display: flex; gap: 36px; margin-top: 44px; padding-top: 36px; border-top: 1px solid var(--border); }
+  .kpi-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--blue-dark); }
+  .kpi-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .hero-visual { position: relative; }
+  .hv-card { background: white; border-radius: 22px; box-shadow: var(--sh-lg); border: 1px solid var(--border); padding: 30px; position: relative; }
+  .hv-row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid #f0f5fa; }
+  .hv-row:last-of-type { border-bottom: none; }
+  .hv-ico { width: 44px; height: 44px; border-radius: 12px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .hv-info { flex: 1; }
+  .hv-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .hv-sub { font-size: 12px; color: var(--muted); }
+  .hv-price { font-size: 14px; font-weight: 500; color: var(--blue); }
+  .hv-tag { position: absolute; top: -18px; right: -18px; background: var(--wa); color: white; border-radius: 14px; padding: 12px 18px; box-shadow: 0 4px 16px rgba(37,211,102,.35); }
+  .hv-tag-big { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .hv-tag-sm { font-size: 11px; opacity: .9; }
+
+  /* ── WHY US ────────────────────────────────── */
+  .why-section { padding: 90px 0; background: var(--white); }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .why-card {
+    background: var(--off); border-radius: 18px; padding: 32px 28px;
+    border: 1px solid var(--border); transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .why-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--blue-mid)); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+  .why-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); background: white; }
+  .why-card:hover::after { transform: scaleX(1); }
+  .why-ico { font-size: 38px; margin-bottom: 18px; display: block; }
+  .why-title { font-family: 'Playfair Display', serif; font-size: 19px; color: var(--blue-dark); margin-bottom: 10px; }
+  .why-text { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+  /* ── SERVICES ───────────────────────────────── */
+  .services-section { padding: 90px 0; background: var(--off); }
+  .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .svc-card {
+    background: white; border-radius: 20px; border: 1px solid var(--border);
+    padding: 34px 30px; display: flex; gap: 22px; align-items: flex-start;
+    box-shadow: var(--sh); transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .svc-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--blue), var(--blue-mid)); transform: scaleY(0); transform-origin: top; transition: transform .3s; }
+  .svc-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); border-color: var(--blue-mid); }
+  .svc-card:hover::before { transform: scaleY(1); }
+  .svc-ico { font-size: 40px; flex-shrink: 0; margin-top: 2px; }
+  .svc-body { flex: 1; }
+  .svc-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--blue-dark); margin-bottom: 8px; }
+  .svc-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 14px; }
+  .svc-pill { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; }
+  .svc-wa-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--wa); color: white;
+    padding: 9px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none; margin-top: 16px;
+    transition: background .18s;
+  }
+  .svc-wa-btn:hover { background: var(--wa-dark); }
+
+  /* ── PROCESS ─────────────────────────────────── */
+  .process-section { padding: 90px 0; background: var(--white); }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .process-steps::before { content: ''; position: absolute; top: 36px; left: 12.5%; right: 12.5%; height: 2px; background: var(--border); z-index: 0; }
+  .ps-item { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+  .ps-num { width: 72px; height: 72px; border-radius: 50%; background: white; border: 2px solid var(--blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--blue); box-shadow: 0 0 0 6px var(--blue-light); }
+  .ps-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--blue-dark); margin-bottom: 8px; }
+  .ps-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* ── PRICING ─────────────────────────────────── */
+  .pricing-section { padding: 90px 0; background: var(--off); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .price-card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 32px 28px; box-shadow: var(--sh); transition: all .25s; text-align: center; }
+  .price-card.featured { background: var(--blue-dark); border-color: var(--blue-dark); transform: scale(1.04); }
+  .price-card:not(.featured):hover { transform: translateY(-4px); box-shadow: var(--sh-lg); }
+  .pc-ico { font-size: 40px; margin-bottom: 18px; }
+  .pc-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--blue-dark); margin-bottom: 6px; }
+  .price-card.featured .pc-name { color: white; }
+  .pc-from { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .price-card.featured .pc-from { color: rgba(255,255,255,.6); }
+  .pc-price { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  .price-card.featured .pc-price { color: #7dd3fc; }
+  .pc-unit { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .price-card.featured .pc-unit { color: rgba(255,255,255,.6); }
+  .pc-items { list-style: none; text-align: left; margin-bottom: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .pc-items li { font-size: 13px; color: var(--muted); display: flex; align-items: flex-start; gap: 8px; }
+  .price-card.featured .pc-items li { color: rgba(255,255,255,.8); }
+  .pc-items li::before { content: '✓'; color: var(--wa); font-weight: 700; flex-shrink: 0; }
+  .price-card.featured .pc-items li::before { color: #7dd3fc; }
+  .pc-badge { background: var(--gold); color: white; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; }
+
+  /* ── CONTACT ─────────────────────────────────── */
+  .contact-section { padding: 90px 0; background: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .contact-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .ci-ico { width: 48px; height: 48px; border-radius: 12px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ci-label { font-size: 12px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; }
+  .ci-val { font-size: 15px; font-weight: 500; color: var(--text); }
+  .ci-val a { text-decoration: none; color: var(--blue); }
+  .ci-val a:hover { text-decoration: underline; }
+  .contact-wa-card { background: linear-gradient(135deg, #0a5c30, var(--wa-dark)); border-radius: 22px; padding: 36px; color: white; }
+  .cwa-title { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 10px; }
+  .cwa-sub { font-size: 14px; opacity: .85; line-height: 1.7; margin-bottom: 28px; }
+  .btn-wa-big { display: flex; align-items: center; justify-content: center; gap: 12px; background: white; color: var(--wa-dark); padding: 16px 24px; border-radius: 14px; font-size: 16px; font-weight: 500; text-decoration: none; transition: all .2s; box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+  .btn-wa-big:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.2); }
+  .cwa-hours { display: flex; flex-direction: column; gap: 8px; margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.2); }
+  .cwa-hr { display: flex; justify-content: space-between; font-size: 13px; opacity: .85; }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  footer { background: var(--blue-deeper); color: rgba(255,255,255,.7); padding: 56px 0 32px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .fg-brand p { font-size: 14px; line-height: 1.75; margin-top: 14px; max-width: 260px; }
+  .fg-col h5 { font-size: 13px; font-weight: 500; color: white; margin-bottom: 16px; letter-spacing: .5px; }
+  .fg-col a { display: block; font-size: 13px; color: rgba(255,255,255,.6); text-decoration: none; margin-bottom: 10px; transition: color .18s; }
+  .fg-col a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .footer-copy { font-size: 13px; }
+  .social-row { display: flex; gap: 10px; }
+  .soc-btn { width: 38px; height: 38px; background: rgba(255,255,255,.08); border-radius: 9px; display: flex; align-items: center; justify-content: center; text-decoration: none; color: rgba(255,255,255,.65); transition: all .18s; }
+  .soc-btn:hover { background: rgba(255,255,255,.18); color: white; }
+  .web-link { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: white; text-decoration: none; padding: 8px 16px; border-radius: 10px; font-size: 13px; transition: background .18s; margin-top: 16px; }
+  .web-link:hover { background: rgba(255,255,255,.18); }
+
+  /* ── FLOATING WA ──────────────────────────── */
+  .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 99; width: 58px; height: 58px; background: var(--wa); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,.5); text-decoration: none; transition: all .2s; animation: waPulse 2.5s infinite; }
+  .wa-float:hover { background: var(--wa-dark); transform: scale(1.1); animation: none; }
+  @keyframes waPulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,.5); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,.75), 0 0 0 8px rgba(37,211,102,.12); } }
+
+  /* ── RESPONSIVE ───────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-visual { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .process-steps::before { display: none; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .nav-links, .btn-wa-nav { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav-mobile.open { display: flex; flex-direction: column; position: fixed; top: 66px; left: 0; right: 0; background: white; border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; gap: 1.2rem; box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 99; }
+    .nav-mobile a { font-size: 15px; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .nav-mobile .btn-wa-nav { display: inline-flex; width: fit-content; }
+  }
+  @media (max-width: 540px) {
+    .hero-kpis { gap: 20px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .svc-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4"/><path d="M12 8v1M12 15v1"/></svg>
+      </div>
+      <span class="logo-text">Fresh-Fold</span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#process">How it Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <!--
+      ╔══════════════════════════════════════════════════════════════╗
+      ║  WHATSAPP SETUP — edit YOUR_PHONE_NUMBER in this file       ║
+      ║  Use international format WITHOUT + or spaces               ║
+      ║  Example: India +91 97899 92720  →  9789992720              ║
+      ╚══════════════════════════════════════════════════════════════╝
+    -->
+    <a class="btn-wa-nav" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20service." target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+      Book via WhatsApp
+    </a>
+    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<!-- Mobile nav -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#process" onclick="toggleMenu()">How it Works</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a class="btn-wa-nav" href="https://wa.me/9789992720?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20service." target="_blank" rel="noopener" onclick="toggleMenu()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+    Book via WhatsApp
+  </a>
+</div>
+
+<!-- ════ HERO ════ -->
+<section class="hero-wrap" id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero">
+        <div class="hero-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#c9963a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Premium Laundry · palakkad, Kerala
+        </div>
+        <h1>Clean Clothes,<br><em>Effortless</em> Living.</h1>
+        <p class="hero-desc">Professional wash, dry cleaning &amp; ironing — picked up from your door and delivered back spotless. Book in seconds via WhatsApp.</p>
+        <div class="hero-actions">
+          <a class="btn-wa-hero" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20laundry%20pickup." target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+            Book Now via WhatsApp
+          </a>
+          <a class="btn-services" href="#services">Our Services ↓</a>
+        </div>
+        <div class="hero-kpis">
+          <div><div class="kpi-num">5K+</div><div class="kpi-lbl">Happy Customers</div></div>
+          <div><div class="kpi-num">48h</div><div class="kpi-lbl">Turnaround</div></div>
+          <div><div class="kpi-num">4.9★</div><div class="kpi-lbl">Avg Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div style="position:relative;">
+          <div class="hv-card">
+            <p style="font-family:'Playfair Display',serif;font-size:17px;color:var(--blue-dark);margin-bottom:18px;">Popular Services</p>
+            <div class="hv-row"><div class="hv-ico">🧺</div><div class="hv-info"><div class="hv-name">Wash &amp; Fold</div><div class="hv-sub">Per kg · doorstep pickup</div></div><div class="hv-price">₹49/kg</div></div>
+            <div class="hv-row"><div class="hv-ico">✨</div><div class="hv-info"><div class="hv-name">Dry Cleaning</div><div class="hv-sub">Delicates &amp; formals</div></div><div class="hv-price">₹99/pc</div></div>
+            <div class="hv-row"><div class="hv-ico">👔</div><div class="hv-info"><div class="hv-name">Ironing &amp; Press</div><div class="hv-sub">Steam-pressed perfectly</div></div><div class="hv-price">₹15/pc</div></div>
+            <div class="hv-row"><div class="hv-ico">🚚</div><div class="hv-info"><div class="hv-name">Pickup &amp; Delivery</div><div class="hv-sub">Free above ₹499</div></div><div class="hv-price">Free</div></div>
+          </div>
+          <div class="hv-tag">
+            <div class="hv-tag-big">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+              Book Instantly
+            </div>
+            <div class="hv-tag-sm">via WhatsApp</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY US ════ -->
+<section class="why-section">
+  <div class="container">
+    <div class="section-hd">
+      <span class="section-label">Why Fresh-Fold</span>
+      <h2 class="section-title">Premium Care, Every Time</h2>
+      <p class="section-sub">We treat every garment with the attention it deserves. Here's what sets us apart.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><span class="why-ico">🚪</span><div class="why-title">Doorstep Pickup &amp; Delivery</div><p class="why-text">No trips, no hassle. We collect your laundry from your door and return it fresh — all you do is message us on WhatsApp.</p></div>
+      <div class="why-card"><span class="why-ico">⚗️</span><div class="why-title">Premium Products Only</div><p class="why-text">We use top-grade detergents and solvents that are gentle on fabric yet effective against stains, odours and bacteria.</p></div>
+      <div class="why-card"><span class="why-ico">⏱️</span><div class="why-title">48-Hour Turnaround</div><p class="why-text">Most orders are cleaned, pressed and back at your door within 48 hours. Express service available for urgent needs.</p></div>
+      <div class="why-card"><span class="why-ico">👗</span><div class="why-title">Fabric-First Approach</div><p class="why-text">Every item is inspected before cleaning. We match the method — machine wash, hand wash, or dry clean — to the fabric type.</p></div>
+      <div class="why-card"><span class="why-ico">💬</span><div class="why-title">Book in Seconds</div><p class="why-text">No apps to download, no forms to fill. Just send us a WhatsApp message and we'll take care of the rest.</p></div>
+      <div class="why-card"><span class="why-ico">🌿</span><div class="why-title">Eco-Conscious Cleaning</div><p class="why-text">We use biodegradable detergents and responsible water usage practices to minimise our environmental footprint.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SERVICES ════ -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="section-hd">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Our Services</h2>
+      <p class="section-sub">From everyday wear to delicate formals — we have a service for every garment.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="svc-card">
+        <div class="svc-ico">🧺</div>
+        <div class="svc-body">
+          <div class="svc-name">Wash &amp; Fold</div>
+          <p class="svc-desc">Machine-washed with premium detergents, tumble dried and neatly folded. Perfect for everyday clothing, bed linen and towels. Priced by weight.</p>
+          <span class="svc-pill">From ₹49 / kg</span>
+          <br>
+          <a class="svc-wa-btn" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I'd%20like%20to%20book%20a%20Wash%20%26%20Fold%20service." target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+            Book this Service
+          </a>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-ico">✨</div>
+        <div class="svc-body">
+          <div class="svc-name">Dry Cleaning</div>
+          <p class="svc-desc">Solvent-based professional cleaning for delicate fabrics, suits, sarees, lehengas, coats and formal wear. Careful inspection before every clean.</p>
+          <span class="svc-pill">From ₹99 / piece</span>
+          <br>
+          <a class="svc-wa-btn" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I'd%20like%20to%20book%20Dry%20Cleaning." target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+            Book this Service
+          </a>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-ico">👔</div>
+        <div class="svc-body">
+          <div class="svc-name">Ironing &amp; Press</div>
+          <p class="svc-desc">Steam-pressed to a crisp finish. Office shirts, kurtas, sarees and school uniforms — delivered wrinkle-free and ready to wear.</p>
+          <span class="svc-pill">From ₹15 / piece</span>
+          <br>
+          <a class="svc-wa-btn" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I'd%20like%20to%20book%20Ironing%20%26%20Pressing." target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+            Book this Service
+          </a>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-ico">🚚</div>
+        <div class="svc-body">
+          <div class="svc-name">Pickup &amp; Delivery</div>
+          <p class="svc-desc">Schedule a doorstep pickup at a time that suits you. We'll collect, clean and deliver right back — no travel required on your end.</p>
+          <span class="svc-pill">Free above ₹499 order</span>
+          <br>
+          <a class="svc-wa-btn" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I'd%20like%20to%20schedule%20a%20Pickup%20%26%20Delivery." target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+            Schedule Pickup
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROCESS ════ -->
+<section class="process-section" id="process">
+  <div class="container">
+    <div class="section-hd">
+      <span class="section-label">Simple Steps</span>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">From your door to ours and back — the whole process is effortless.</p>
+    </div>
+    <div class="process-steps">
+      <div class="ps-item"><div class="ps-num">1</div><div class="ps-title">Message Us</div><p class="ps-text">Send a WhatsApp message to book. Tell us your service, address and preferred pickup time.</p></div>
+      <div class="ps-item"><div class="ps-num">2</div><div class="ps-title">We Collect</div><p class="ps-text">Our team arrives at your door at the scheduled time and picks up your laundry.</p></div>
+      <div class="ps-item"><div class="ps-num">3</div><div class="ps-title">We Clean</div><p class="ps-text">Expert care using the right method for each fabric — washed, dried, ironed or dry-cleaned.</p></div>
+      <div class="ps-item"><div class="ps-num">4</div><div class="ps-title">We Deliver</div><p class="ps-text">Fresh, neatly packed clothes delivered back to your door within 48 hours.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:52px;">
+      <a class="btn-wa-hero" style="display:inline-flex;" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20service." target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        Start Your Booking on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PRICING ════ -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-hd">
+      <span class="section-label">Transparent Rates</span>
+      <h2 class="section-title">Simple Pricing</h2>
+      <p class="section-sub">No hidden charges. What you see is what you pay.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="pc-ico">🧺</div>
+        <div class="pc-name">Wash &amp; Fold</div>
+        <div class="pc-from">Starting from</div>
+        <div class="pc-price">₹49</div>
+        <div class="pc-unit">per kilogram</div>
+        <ul class="pc-items">
+          <li>Machine wash with premium detergent</li>
+          <li>Tumble dried &amp; neatly folded</li>
+          <li>Suitable for everyday clothing</li>
+          <li>Bed linen &amp; towels welcome</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <span class="pc-badge">Most Popular</span>
+        <div class="pc-ico">✨</div>
+        <div class="pc-name">Dry Cleaning</div>
+        <div class="pc-from">Starting from</div>
+        <div class="pc-price">₹99</div>
+        <div class="pc-unit">per piece</div>
+        <ul class="pc-items">
+          <li>Professional solvent cleaning</li>
+          <li>Suits, sarees &amp; formal wear</li>
+          <li>Delicates &amp; embroidered fabrics</li>
+          <li>Fabric inspection included</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="pc-ico">👔</div>
+        <div class="pc-name">Ironing &amp; Press</div>
+        <div class="pc-from">Starting from</div>
+        <div class="pc-price">₹15</div>
+        <div class="pc-unit">per piece</div>
+        <ul class="pc-items">
+          <li>Steam-pressed to crisp finish</li>
+          <li>Shirts, kurtas &amp; uniforms</li>
+          <li>Sarees &amp; churidars accepted</li>
+          <li>Ready-to-wear delivery</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:28px;font-size:14px;color:var(--muted);">Pickup &amp; delivery is <strong>free</strong> on orders above ₹499. For exact quotes, message us on WhatsApp.</p>
+  </div>
+</section>
+
+<!-- ════ CONTACT ════ -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-hd">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="section-title">Contact Us</h2>
+      <p class="section-sub">We're available every day. Reach us on WhatsApp for the fastest response.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item">
+          <div class="ci-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <div class="ci-label">Phone / WhatsApp</div>
+            <!-- ⚠️ Replace with your actual phone number -->
+            <div class="ci-val"><a href="tel:+919876543210">+91 98765 43210</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="ci-label">Email</div>
+            <div class="ci-val"><a href="mailto:hello@Fresh-Fold.com">hello@Fresh-Fold.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="ci-label">Location</div>
+            <div class="ci-val">palakkad, Kerala, India</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="ci-label">Working Hours</div>
+            <div class="ci-val">Mon – Sat: 8 AM – 8 PM</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:2px;">Sunday: 9 AM – 5 PM</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div>
+            <div class="ci-label">Website</div>
+            <div class="ci-val"><a href="https://www.Fresh-Fold.com" target="_blank" rel="noopener">www.Fresh-Fold.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-wa-card">
+        <div style="margin-bottom:16px;">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        </div>
+        <div class="cwa-title">Book via WhatsApp</div>
+        <p class="cwa-sub">The fastest way to place an order. Message us your service, address and preferred pickup time — we'll confirm within minutes.</p>
+        <a class="btn-wa-big" href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20laundry%20service.%20Please%20share%20availability." target="_blank" rel="noopener">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#128c4a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          Chat on WhatsApp Now
+        </a>
+        <div class="cwa-hours">
+          <div class="cwa-hr"><span>Mon – Sat</span><span>8:00 AM – 8:00 PM</span></div>
+          <div class="cwa-hr"><span>Sunday</span><span>9:00 AM – 5:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="fg-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;background:rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4"/></svg>
+          </div>
+          <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Fresh-Fold</span>
+        </div>
+        <p>Premium laundry service at your doorstep in palakkad, Kerala. Clean clothes, happy life.</p>
+        <a class="web-link" href="https://www.Fresh-Fold.com" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          www.Fresh-Fold.com
+        </a>
+      </div>
+      <div class="fg-col">
+        <h5>Services</h5>
+        <a href="#services">Wash &amp; Fold</a>
+        <a href="#services">Dry Cleaning</a>
+        <a href="#services">Ironing &amp; Press</a>
+        <a href="#services">Pickup &amp; Delivery</a>
+      </div>
+      <div class="fg-col">
+        <h5>Quick Links</h5>
+        <a href="#home">Home</a>
+        <a href="#process">How it Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="fg-col">
+        <h5>Contact</h5>
+        <!-- ⚠️ Replace with your actual number -->
+        <a href="tel:+919789992720">+91 97899 92720</a>
+        <a href="mailto:hello@Fresh-Fold.com">hello@Fresh-Fold.com</a>
+        <a href="#">Palakad, Kerala</a>
+        <a href="https://wa.me/YOUR_PHONE_NUMBER" target="_blank" rel="noopener" style="color:var(--wa);margin-top:6px;">WhatsApp Us →</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Fresh-Fold. All rights reserved.</div>
+      <div class="social-row">
+        <a class="soc-btn" href="#" title="Instagram" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="soc-btn" href="https://wa.me/YOUR_PHONE_NUMBER" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+        <a class="soc-btn" href="#" title="Facebook" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a class="soc-btn" href="https://www.Fresh-Fold.com" target="_blank" rel="noopener" title="Website" aria-label="Website">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════ FLOATING WA BUTTON ════ -->
+<a class="wa-float" href="https://wa.me/9789992720?text=Hi%20Fresh-Fold!%20I%20would%20like%20to%20book%20a%20service." target="_blank" rel="noopener" title="Book via WhatsApp" aria-label="Book via WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.851L.057 23.886a.5.5 0 0 0 .619.601l6.162-1.612A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.988-1.364l-.358-.212-3.714.973.991-3.624-.233-.373A9.799 9.799 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+</a>
+
+<!-- Only JS used: mobile nav toggle — no tracking, no analytics, no external calls -->
+<script>
+  function toggleMenu() {
+    document.getElementById('navMobile').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
